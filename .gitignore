@@ -1,0 +1,51 @@
+target/
+tool-code-generator/output
+
+transaction-logs/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### vscode ###
+.vscode/*
+
+logs/*
+temp/*
+tmp/*
+/.metadata/
+*.log
+
+*.zip
+*.tmp
+rebel.xml
+/.scannerwork
+/config-repo
+
+
+*.DS_Store
+pom.xml.versionsBackup
+mvnw
+mvnw.cmd
+HELP.md
+target
+.mvn
