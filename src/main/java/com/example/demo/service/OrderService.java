@@ -21,7 +21,6 @@ public class OrderService {
   private OrderMapper orderMapper;
 
   public List<OrderVo> orderList() {
-//    HintManager.getInstance().setDatabaseShardingValue("ds1");
     List<OrderVo> orders = orderMapper.selectList();
     return orders;
   }
