@@ -6,6 +6,6 @@
         SELECT *
         FROM `t_order`
         WHERE order_id BETWEEN 10000 and 3000000
-          and user_id in (2, 5)
+          and user_id in (2)
     </select>
 </mapper>

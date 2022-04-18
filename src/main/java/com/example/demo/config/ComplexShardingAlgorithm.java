@@ -1,13 +1,14 @@
 package com.example.demo.config;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Range;
 import io.shardingsphere.api.algorithm.sharding.ListShardingValue;
+import io.shardingsphere.api.algorithm.sharding.PreciseShardingValue;
+import io.shardingsphere.api.algorithm.sharding.RangeShardingValue;
 import io.shardingsphere.api.algorithm.sharding.ShardingValue;
 import io.shardingsphere.api.algorithm.sharding.complex.ComplexKeysShardingAlgorithm;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * <p> ComplexShardingAlgorithm </p>
@@ -20,7 +21,7 @@ public class ComplexShardingAlgorithm implements ComplexKeysShardingAlgorithm {
 
 
   /**
-   *
+   * 配置文件已经指定 user_id 分库 order_id 分表 但是这里还是要指定分库分表的规则
    * @param collection 在加载配置文件时，会解析表分片规则。将结果存储到 collection中，doSharding（）参数使用
    * @param shardingValues SQL中对应的
    * @return
@@ -68,7 +69,40 @@ public class ComplexShardingAlgorithm implements ComplexKeysShardingAlgorithm {
           return value.getValues();
         }
       }
+      if (next instanceof RangeShardingValue) {
+        RangeShardingValue value = (RangeShardingValue) next;
+        // user_id，order_id分片键进行分表
+        return doSharding(Lists.newArrayList(0, 1), value);
+      }
+
+      if (next instanceof PreciseShardingValue) {
+        PreciseShardingValue value = (PreciseShardingValue) next;
+        System.out.println("value.getColumnName():" + value.getColumnName() + ",key:" + key);
+      }
     }
     return valueSet;
+  }
+
+  public Collection<Integer> doSharding(Collection<Integer> tableNames,
+                                        RangeShardingValue<Integer> shardingValue) {
+    Set<Integer> result = new LinkedHashSet<>();
+    // 如果between  2000000 and 7000000
+    for (Integer each : tableNames) {
+      if (containRange(shardingValue, 0, 2000000)) {
+        result.add(0);
+      }
+      if (containRange(shardingValue, 2000000, 7000000)) {
+        result.add(1);
+      }
+      if (containRange(shardingValue, 7000000, Integer.MAX_VALUE)) {
+        result.add(2);
+      }
+    }
+    return result;
+  }
+
+  private boolean containRange(RangeShardingValue<Integer> shardingValue, int i, int maxValue) {
+    return Range.closed(i, maxValue).contains(shardingValue.getValueRange().lowerEndpoint()) ||
+        Range.closed(i, maxValue).contains(shardingValue.getValueRange().upperEndpoint());
   }
 }
