@@ -26,4 +26,8 @@ public class OrderController {
     return orders;
   }
 
+  @GetMapping("/saveProvince")
+  public void saveProvince() {
+    orderService.saveProvince();
+  }
 }

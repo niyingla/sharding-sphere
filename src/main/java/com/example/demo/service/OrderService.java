@@ -25,4 +25,8 @@ public class OrderService {
     return orders;
   }
 
+  public void saveProvince() {
+    orderMapper.saveProvince();
+  }
+
 }

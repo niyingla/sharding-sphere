@@ -15,4 +15,5 @@ public interface OrderMapper {
 
   List<OrderVo> selectList();
 
+  int saveProvince();
 }

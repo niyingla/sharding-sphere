@@ -8,4 +8,9 @@
         WHERE order_id BETWEEN 10000 and 3000000
           and user_id in (2)
     </select>
+
+    <insert id="saveProvince">
+        INSERT INTO t_province(`id`, `name`, `code`)
+        VALUES (1, '湖南省', 'hunan')
+    </insert>
 </mapper>
